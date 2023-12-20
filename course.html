@@ -8,13 +8,13 @@
 </head>
 <body>
     <h1>Course Search</h1>
-    <form action="#" method="get" id="courseSearchForm">
+    <form action="course.php" method="post" id="courseSearchForm">
         <div class="column">
               
             <label style="color: #ff0000;">*</label>
             <label for="term">Term:</label>
             <div style="display: block;">
-                <select size="5" name="term" multiple="multiple" id="term" style="display: inline; width: 275px;" required>
+                <select size="5" name="term" id="term" style="display: inline; width: 275px;" required>
                     <option value="Fall 2023">Fall 2023</option>
                     <option value="Intersession 2024">Intersession 2024</option>
                     <option value="Spring 2024">Spring 2024</option>
@@ -34,7 +34,7 @@
 
             <div style="display: block;">
                 <label for="department">Department:</label>
-                <select name="department" id="department" onchange="department_onClick(this);return false;" style="width:275px;display: inline;">
+                <select name="department" id="department" style="width:275px;display: inline;">
                     <option value="Please Select">Please Select</option>
                     <option value="Krieger School of Arts and Sciences">AS Agora Institute</option>
                     <option value="Krieger School of Arts and Sciences">AS Anthropology</option>
@@ -139,9 +139,9 @@
         </div>
           
         <div class="column" margin-left="10px">
-            <label for="programOfStudy">Program of Study:</label>
+            <!-- <label for="programOfStudy">Program of Study:</label>
             <div style="display: block;">
-                <select id="programOfStudy" name="programOfStudy" multiple style="width:150px; height: 200px; display: inline;">
+                <select id="programOfStudy" name="programOfStudy" multiple="multiple" style="width:150px; height: 200px; display: inline;">
                     <option value="AFRS-AFRICA">AFRS-AFRICA</option>
                     <option value="AFRS-ENSLAV">AFRS-ENSLAV</option>
                     <option value="AGRI-ELECT">AGRI-ELECT</option>
@@ -262,12 +262,12 @@
                     <option value="WRIT-READ">WRIT-READ</option>
 
                 </select>
-            </div>
+            </div> -->
 
             <label for="writingIntensive">Writing Intensive?</label>
             <div style="display: block;">
-                <label><input type="checkbox" id="wiBox" name="writingIntensive" value="yes" onclick="toggleWi(this)">Yes</label>
-                <label><input type="checkbox" id="nwiBox" name="writingIntensive" value="no" onclick="toggleWi(this)">No</label>
+                <label><input type="checkbox" id="wiBox" name="wi" value="yes" onclick="toggleWi(this)">Yes</label>
+                <label><input type="checkbox" id="nwiBox" name="nwi" value="no" onclick="toggleWi(this)">No</label>
             </div>
 
             <div style="display: block;">
