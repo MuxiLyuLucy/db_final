@@ -2,7 +2,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS SearchCourses;
 
 CREATE PROCEDURE SearchCourses(
-    -- IN p_Term VARCHAR(20)
+    IN p_Term VARCHAR(20),
     IN p_ClassTitle VARCHAR(255),
     IN p_ClassNumber VARCHAR(255),
     IN p_Department VARCHAR(255)
@@ -43,15 +43,19 @@ BEGIN
     AND c.TimeSlotID = ts.TimeSlotID
     AND c.TermID = t.TermID
     AND i.DepartmentID = d.DepartmentID
-    AND (p_ClassTitle IS NULL OR p_ClassTitle= c.CourseTitle)
-    AND (p_Department = "none" OR p_Department = d.DepartmentName)
+    AND t.TermName = p_Term;
+    -- AND (p_ClassTitle IS NULL OR p_ClassTitle= c.CourseTitle)
+    -- AND (p_Department = "none" OR p_Department = d.DepartmentName)
+    -- AND (p_ClassNumber IS NULL OR c.CourseName = p_ClassNumber);
+
+
     -- AND p_InstructorName = Instructor.InstructorName;
     -- t.TermName = p_Term
     -- AND t.TermID = c.TermID
     -- AND t.TermID = 41
     -- AND (p_ClassTitle IS NULL OR INSTR(LOWER(c.CourseTitle), p_ClassTitle))
     -- AND (p_ClassTitle IS NULL OR c.CourseTitle LIKE CONCAT('%', p_ClassTitle, '%'))
-    AND (p_ClassNumber IS NULL OR c.CourseName = p_ClassNumber);
+
     -- AND (p_Department IS NULL OR Department.DepartmentName = p_Department)
     -- AND (p_InstructorName IS NULL OR Instructor.InstructorName LIKE CONCAT('%', p_InstructorName, '%'))
     -- And (p_area IS NULL OR JSON_SEARCH(Course.Areas, 'one', p_area) IS NOT NULL);

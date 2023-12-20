@@ -43,8 +43,9 @@ if (isset($_POST['department'])) {
     $department = $_POST['department'];
     if ($department === 'Please Select') {
         $department = null;
+    } else {
+        echo "<h2> $department </h2>";
     }
-    echo "<h2> $department </h2>";
 } else {
     $department = null;
 }
@@ -93,7 +94,10 @@ if (isset($_POST["day"])) {
 }
 
 // $sql = "CALL SearchCourses('$term', '$classTitle', '$classNumber', '$department', '$instructor', '$area', '$writingIntensive', '$openseat', '$day')";
-$sql = "CALL SearchCourses('$classTitle', '$classNumber', '$department')";
+echo "<h2> $classTitle </h2>";
+echo "<h2> $classNumber </h2>";
+echo "<h2> $department </h2>";
+$sql = "CALL SearchCourses('$term', '$classTitle', '$classNumber', '$department')";
 
 $result = mysqli_query($conn, $sql);
 if (!$result) {
