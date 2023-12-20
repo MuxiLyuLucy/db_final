@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Search</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Course Search</h1>
+    <form action="#" method="get" id="courseSearchForm">
+        <div class="column">
+              
+            <label style="color: #ff0000;">*</label>
+            <label for="term">Term:</label>
+            <div style="display: block;">
+                <select size="5" name="term" multiple="multiple" id="term" style="display: inline; width: 275px;" required>
+                    <option value="Fall 2023">Fall 2023</option>
+                    <option value="Intersession 2024">Intersession 2024</option>
+                    <option value="Spring 2024">Spring 2024</option>
+                </select>
+            </div>
+
+            <div style="display: block;">
+                <label for="classTitle">Class Title:</label>
+                <input type="text" id="classTitle" name="classTitle">
+            </div>
+
+
+            <div style="display: block;">
+                <label for="classNumber">Class Number:</label>
+                <input type="text" id="classNumber" name="classNumber">
+            </div>
+
+            <div style="display: block;">
+                <label for="department">Department:</label>
+                <select name="department" id="department" onchange="department_onClick(this);return false;" style="width:275px;display: inline;">
+                    <option value="Please Select">Please Select</option>
+                    <option value="Krieger School of Arts and Sciences">AS Agora Institute</option>
+                    <option value="Krieger School of Arts and Sciences">AS Anthropology</option>
+                    <option value="Krieger School of Arts and Sciences">AS Archaeology</option>
+                    <option value="Krieger School of Arts and Sciences">AS Art</option>
+                    <option value="Krieger School of Arts and Sciences">AS Behavioral Biology</option>
+                    <option value="Krieger School of Arts and Sciences">AS Biology</option>
+                    <option value="Krieger School of Arts and Sciences">AS Biophysics</option>
+                    <option value="Krieger School of Arts and Sciences">AS Center for Africana Studies</option>
+                    <option value="Krieger School of Arts and Sciences">AS Center for Language Education</option>
+                    <option value="Krieger School of Arts and Sciences">AS Chemistry</option>
+                    <option value="Krieger School of Arts and Sciences">AS Classics</option>
+                    <option value="Krieger School of Arts and Sciences">AS Cognitive Science</option>
+                    <option value="Krieger School of Arts and Sciences">AS Comparative Thought and Literature</option>
+                    <option value="Krieger School of Arts and Sciences">AS Dean's Teaching Fellowship Courses</option>
+                    <option value="Krieger School of Arts and Sciences">AS Earth &amp; Planetary Sciences</option>
+                    <option value="Krieger School of Arts and Sciences">AS East Asian Studies</option>
+                    <option value="Krieger School of Arts and Sciences">AS Economics</option>
+                    <option value="Krieger School of Arts and Sciences">AS English</option>
+                    <option value="Krieger School of Arts and Sciences">AS Film and Media Studies</option>
+                    <option value="Krieger School of Arts and Sciences">AS First Year Seminars</option>
+                    <option value="Krieger School of Arts and Sciences">AS Freshman Seminars</option>
+                    <option value="Krieger School of Arts and Sciences">AS German &amp; Romance Languages &amp; Literatures</option>
+                    <option value="Krieger School of Arts and Sciences">AS History</option>
+                    <option value="Krieger School of Arts and Sciences">AS History of Art</option>
+                    <option value="Krieger School of Arts and Sciences">AS History of Science, Medicine, and Technology</option>
+                    <option value="Krieger School of Arts and Sciences">AS Humanities Center</option>
+                    <option value="Krieger School of Arts and Sciences">AS Interdepartmental</option>
+                    <option value="Krieger School of Arts and Sciences">AS International Studies</option>
+                    <option value="Krieger School of Arts and Sciences">AS Islamic Studies</option>
+                    <option value="Krieger School of Arts and Sciences">AS Jewish Studies Program</option>
+                    <option value="Krieger School of Arts and Sciences">AS Latin American, Caribbean, and Latinx Studies</option>
+                    <option value="Krieger School of Arts and Sciences">AS Mathematics</option>
+                    <option value="Krieger School of Arts and Sciences">AS Medical Tutorials</option>
+                    <option value="Krieger School of Arts and Sciences">AS Medicine, Science and the Humanities</option>
+                    <option value="Krieger School of Arts and Sciences">AS Military Science</option>
+                    <option value="Krieger School of Arts and Sciences">AS Modern Languages and Literatures</option>
+                    <option value="Krieger School of Arts and Sciences">AS Music</option>
+                    <option value="Krieger School of Arts and Sciences">AS Near Eastern Studies</option>
+                    <option value="Krieger School of Arts and Sciences">AS Neuroscience</option>
+                    <option value="Krieger School of Arts and Sciences">AS Non-Departmental</option>
+                    <option value="Krieger School of Arts and Sciences">AS Philosophy</option>
+                    <option value="Krieger School of Arts and Sciences">AS Physics &amp; Astronomy</option>
+                    <option value="Krieger School of Arts and Sciences">AS Political Science</option>
+                    <option value="Krieger School of Arts and Sciences">AS Program in Latin American Studies</option>
+                    <option value="Krieger School of Arts and Sciences">AS Program in Museums and Society</option>
+                    <option value="Krieger School of Arts and Sciences">AS Psychological &amp; Brain Sciences</option>
+                    <option value="Krieger School of Arts and Sciences">AS Public Health Studies</option>
+                    <option value="Krieger School of Arts and Sciences">AS Public Policy</option>
+                    <option value="Krieger School of Arts and Sciences">AS Religion</option>
+                    <option value="Krieger School of Arts and Sciences">AS Reserved Registrar</option>
+                    <option value="Krieger School of Arts and Sciences">AS Sociology</option>
+                    <option value="Krieger School of Arts and Sciences">AS Study of Women, Gender, &amp; Sexuality</option>
+                    <option value="Krieger School of Arts and Sciences">AS Summer and Intersession Programs</option>
+                    <option value="Krieger School of Arts and Sciences">AS Theatre Arts &amp; Studies</option>
+                    <option value="Krieger School of Arts and Sciences">AS Writing Program</option>
+                    <option value="Krieger School of Arts and Sciences">AS Writing Seminars</option>
+                    <option value="Whiting School of Engineering">EN Applied Mathematics &amp; Statistics</option>
+                    <option value="Whiting School of Engineering">EN Biomedical Engineering</option>
+                    <option value="Whiting School of Engineering">EN Center for Leadership Education</option>
+                    <option value="Whiting School of Engineering">EN Chemical &amp; Biomolecular Engineering</option>
+                    <option value="Whiting School of Engineering">EN Civil and Systems Engineering</option>
+                    <option value="Whiting School of Engineering">EN Civil Engineering</option>
+                    <option value="Whiting School of Engineering">EN Computer Science</option>
+                    <option value="Whiting School of Engineering">EN Doctor of Engineering</option>
+                    <option value="Whiting School of Engineering">EN Electrical &amp; Computer Engineering</option>
+                    <option value="Whiting School of Engineering">EN Engineering Management</option>
+                    <option value="Whiting School of Engineering">EN Engineering Precollege</option>
+                    <option value="Whiting School of Engineering">EN Entrepreneurship and Management</option>
+                    <option value="Whiting School of Engineering">EN Environmental Health and Engineering</option>
+                    <option value="Whiting School of Engineering">EN First Year Seminars</option>
+                    <option value="Whiting School of Engineering">EN General Engineering</option>
+                    <option value="Whiting School of Engineering">EN Geography &amp; Environmental Engineering</option>
+                    <option value="Whiting School of Engineering">EN Information Security Institute</option>
+                    <option value="Whiting School of Engineering">EN Institute for NanoBio Technology</option>
+                    <option value="Whiting School of Engineering">EN Materials Science &amp; Engineering</option>
+                    <option value="Whiting School of Engineering">EN Mechanical Engineering</option>
+                    <option value="Whiting School of Engineering">EN Professional Communication</option>
+                    <option value="Whiting School of Engineering">EN Reserved Registrar</option>
+                    <option value="Whiting School of Engineering">EN Robotics</option>
+        
+                </select>
+            </div>
+
+            <div style="display: block;">
+                <label for="instructorName">Instructor Name:</label>
+                <input type="text" id="instructorName" name="instructorName">
+            </div>
+
+            <label for="area">Area:</label>
+            <div style="display: block;">
+                <select size="5" name="area" multiple="multiple" id="area" style="display: inline;">
+                    <option value="E">Engineering</option>
+                    <option value="N">Natural Sciences</option>
+                    <option value="Q">Quantitative Studies</option>
+                    <option value="H">Humanities</option>
+                    <option value="S">Social &amp; Behavioral Sciences</option>
+                </select>
+            </div>
+
+
+        </div>
+          
+        <div class="column" margin-left="10px">
+            <label for="programOfStudy">Program of Study:</label>
+            <div style="display: block;">
+                <select id="programOfStudy" name="programOfStudy" multiple style="width:150px; height: 200px; display: inline;">
+                    <option value="AFRS-AFRICA">AFRS-AFRICA</option>
+                    <option value="AFRS-ENSLAV">AFRS-ENSLAV</option>
+                    <option value="AGRI-ELECT">AGRI-ELECT</option>
+                    <option value="ARCH-ARCH">ARCH-ARCH</option>
+                    <option value="ARCH-RELATE">ARCH-RELATE</option>
+                    <option value="BEHB-BIOBEH">BEHB-BIOBEH</option>
+                    <option value="BEHB-SOCSCI">BEHB-SOCSCI</option>
+                    <option value="BIOL-UL">BIOL-UL</option>
+                    <option value="BME-RIE">BME-RIE</option>
+                    <option value="BMED-BDS">BMED-BDS</option>
+                    <option value="BMED-CM">BMED-CM</option>
+                    <option value="BMED-DSGN">BMED-DSGN</option>
+                    <option value="BMED-GSB">BMED-GSB</option>
+                    <option value="BMED-IMD">BMED-IMD</option>
+                    <option value="BMED-IMMU">BMED-IMMU</option>
+                    <option value="BMED-NE">BMED-NE</option>
+                    <option value="BMED-TCTE">BMED-TCTE</option>
+                    <option value="CHBE-ACBE">CHBE-ACBE</option>
+                    <option value="CHBE-BIOE">CHBE-BIOE</option>
+                    <option value="CHBE-ENEL">CHBE-ENEL</option>
+                    <option value="CHBE-IN">CHBE-IN</option>
+                    <option value="CLE-ENTR">CLE-ENTR</option>
+                    <option value="CLE-LEAD">CLE-LEAD</option>
+                    <option value="CLE-MCOMM">CLE-MCOMM</option>
+                    <option value="CLE-MMGMT">CLE-MMGMT</option>
+                    <option value="COGS-COGPSY">COGS-COGPSY</option>
+                    <option value="COGS-COMPCG">COGS-COMPCG</option>
+                    <option value="COGS-LING">COGS-LING</option>
+                    <option value="COGS-NEURO">COGS-NEURO</option>
+                    <option value="COGS-PHLMND">COGS-PHLMND</option>
+                    <option value="CSC-CE">CSC-CE</option>
+                    <option value="CSCI-APPL">CSCI-APPL</option>
+                    <option value="CSCI-ETHS">CSCI-ETHS</option>
+                    <option value="CSCI-OTHER">CSCI-OTHER</option>
+                    <option value="CSCI-RSNG">CSCI-RSNG</option>
+                    <option value="CSCI-SOFT">CSCI-SOFT</option>
+                    <option value="CSCI-SYST">CSCI-SYST</option>
+                    <option value="CSCI-TEAM">CSCI-TEAM</option>
+                    <option value="CSCI-THRY">CSCI-THRY</option>
+                    <option value="ECON-FINMIN">ECON-FINMIN</option>
+                    <option value="ENGL-GLOBAL">ENGL-GLOBAL</option>
+                    <option value="ENGL-LEC">ENGL-LEC</option>
+                    <option value="ENGL-PR1800">ENGL-PR1800</option>
+                    <option value="ENGY-SCIPOL">ENGY-SCIPOL</option>
+                    <option value="ENGY-TECH">ENGY-TECH</option>
+                    <option value="ENVS-MAJOR">ENVS-MAJOR</option>
+                    <option value="ENVS-MINOR">ENVS-MINOR</option>
+                    <option value="FILM-CRITST">FILM-CRITST</option>
+                    <option value="FILM-PROD">FILM-PROD</option>
+                    <option value="FILM-SCRWRT">FILM-SCRWRT</option>
+                    <option value="GECS-SCI">GECS-SCI</option>
+                    <option value="GECS-SOCSCI">GECS-SOCSCI</option>
+                    <option value="GRAD-CAMS">GRAD-CAMS</option>
+                    <option value="HART-ANC">HART-ANC</option>
+                    <option value="HART-MED">HART-MED</option>
+                    <option value="HART-MODERN">HART-MODERN</option>
+                    <option value="HART-NW">HART-NW</option>
+                    <option value="HART-RENBAR">HART-RENBAR</option>
+                    <option value="HART-RENEM">HART-RENEM</option>
+                    <option value="HART-THRY">HART-THRY</option>
+                    <option value="HIST-AFRICA">HIST-AFRICA</option>
+                    <option value="HIST-ASIA">HIST-ASIA</option>
+                    <option value="HIST-EUROPE">HIST-EUROPE</option>
+                    <option value="HIST-LATAM">HIST-LATAM</option>
+                    <option value="HIST-MIDEST">HIST-MIDEST</option>
+                    <option value="HIST-US">HIST-US</option>
+                    <option value="INST-AP">INST-AP</option>
+                    <option value="INST-CP">INST-CP</option>
+                    <option value="INST-ECON">INST-ECON</option>
+                    <option value="INST-GATEWY">INST-GATEWY</option>
+                    <option value="INST-GLOBAL">INST-GLOBAL</option>
+                    <option value="INST-IR">INST-IR</option>
+                    <option value="INST-NWHIST">INST-NWHIST</option>
+                    <option value="INST-PT">INST-PT</option>
+                    <option value="ISLM-ISLMST">ISLM-ISLMST</option>
+                    <option value="MLL-ENGL">MLL-ENGL</option>
+                    <option value="MLL-FREN">MLL-FREN</option>
+                    <option value="MLL-GERM">MLL-GERM</option>
+                    <option value="MLL-HEBR">MLL-HEBR</option>
+                    <option value="MLL-ITAL">MLL-ITAL</option>
+                    <option value="MLL-PORT">MLL-PORT</option>
+                    <option value="MLL-SPAN">MLL-SPAN</option>
+                    <option value="MSCH-HUM">MSCH-HUM</option>
+                    <option value="NEAS-ARTARC">NEAS-ARTARC</option>
+                    <option value="NEAS-HISCUL">NEAS-HISCUL</option>
+                    <option value="NEUR-CG">NEUR-CG</option>
+                    <option value="NEUR-CM">NEUR-CM</option>
+                    <option value="NEUR-CP">NEUR-CP</option>
+                    <option value="NEUR-ST">NEUR-ST</option>
+                    <option value="PHIL-ANCIEN">PHIL-ANCIEN</option>
+                    <option value="PHIL-BIOETH">PHIL-BIOETH</option>
+                    <option value="PHIL-ETHICS">PHIL-ETHICS</option>
+                    <option value="PHIL-LOGSCI">PHIL-LOGSCI</option>
+                    <option value="PHIL-MIND">PHIL-MIND</option>
+                    <option value="PHIL-MODERN">PHIL-MODERN</option>
+                    <option value="PHIL-SEM">PHIL-SEM</option>
+                    <option value="PMUS-INTRO">PMUS-INTRO</option>
+                    <option value="PMUS-PRAC">PMUS-PRAC</option>
+                    <option value="POLI-AP">POLI-AP</option>
+                    <option value="POLI-CP">POLI-CP</option>
+                    <option value="POLI-IR">POLI-IR</option>
+                    <option value="POLI-PT">POLI-PT</option>
+                    <option value="PSYC-SEM">PSYC-SEM</option>
+                    <option value="ROBO-CMCIS">ROBO-CMCIS</option>
+                    <option value="ROBO-CMCS">ROBO-CMCS</option>
+                    <option value="ROBO-CMIR">ROBO-CMIR</option>
+                    <option value="ROBO-CMMA">ROBO-CMMA</option>
+                    <option value="ROBO-CMUL">ROBO-CMUL</option>
+                    <option value="ROBO-RMCC">ROBO-RMCC</option>
+                    <option value="ROBO-RMLB">ROBO-RMLB</option>
+                    <option value="ROBO-RMRR">ROBO-RMRR</option>
+                    <option value="ROBO-RMSS">ROBO-RMSS</option>
+                    <option value="ROBO-RMSU">ROBO-RMSU</option>
+                    <option value="SPOL-UL">SPOL-UL</option>
+                    <option value="THEA-DRAMA">THEA-DRAMA</option>
+                    <option value="WRIT-FICT">WRIT-FICT</option>
+                    <option value="WRIT-POET">WRIT-POET</option>
+                    <option value="WRIT-READ">WRIT-READ</option>
+
+                </select>
+            </div>
+
+            <label for="writingIntensive">Writing Intensive?</label>
+            <div style="display: block;">
+                <label><input type="checkbox" id="wiBox" name="writingIntensive" value="yes" onclick="toggleWi(this)">Yes</label>
+                <label><input type="checkbox" id="nwiBox" name="writingIntensive" value="no" onclick="toggleWi(this)">No</label>
+            </div>
+
+            <div style="display: block;">
+                <label><input type="checkbox" name="openseat" value="openseat">Open Seat Only</label>
+            </div>
+        </div>
+
+
+        <div style="display: block;">
+            <fieldset style="width: 680px;">
+                <legend>Days of the Week:</legend>
+                <label><input type="checkbox" name="day" value="monday"> Monday</label>
+                <label><input type="checkbox" name="day" value="tuesday"> Tuesday</label>
+                <label><input type="checkbox" name="day" value="wednesday"> Wednesday</label>
+                <label><input type="checkbox" name="day" value="thursday"> Thursday</label>
+                <label><input type="checkbox" name="day" value="friday"> Friday</label>
+                <label><input type="checkbox" name="day" value="saturday"> Saturday</label>
+                <label><input type="checkbox" name="day" value="sunday"> Sunday</label>
+            </fieldset>
+        </div>
+
+        <button type="submit">Search</button>
+    </form>
+</body>
+
+<script>
+    function toggleWi(clickedCheckbox) {
+        var checkboxes = document.getElementsByName("writingIntensive");
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox !== clickedCheckbox) {
+                checkbox.checked = false;
+            }
+        });
+    }
+
+    
+</script>
+</html>
+
+
