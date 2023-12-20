@@ -27,24 +27,20 @@ $day = null;
 
 if (isset($_POST['classTitle'])) {
     $classTitle = $_POST['classTitle'];
-    echo "<h2> $classTitle </h2>";
 } else {
-    $classTitle = null;
+    $classTitle = "none";
 }
 
 if (isset($_POST['classNumber'])) {
     $classNumber = $_POST['classNumber'];
-    echo "<h2> $classNumber </h2>";
 } else {
-    $classNumber = null;
+    $classNumber = "none";
 }
 
 if (isset($_POST['department'])) {
     $department = $_POST['department'];
     if ($department === 'Please Select') {
         $department = null;
-    } else {
-        echo "<h2> $department </h2>";
     }
 } else {
     $department = null;
@@ -54,7 +50,7 @@ if (isset($_POST['instructorName'])) {
     $instructor = $_POST['instructorName'];
     echo "<h2> $instructor </h2>";
 } else {
-    $instructor = null;
+    $instructor = "none";
 }
 
 
@@ -64,7 +60,7 @@ if (isset($_POST['area'])) {
         $area = $selected;
     }
 } else {
-    $area = null;
+    $area = "none";
 }
 
 // if (isset($_POST['programOfStudy'])) {
@@ -94,10 +90,12 @@ if (isset($_POST["day"])) {
 }
 
 // $sql = "CALL SearchCourses('$term', '$classTitle', '$classNumber', '$department', '$instructor', '$area', '$writingIntensive', '$openseat', '$day')";
-echo "<h2> $classTitle </h2>";
-echo "<h2> $classNumber </h2>";
-echo "<h2> $department </h2>";
-$sql = "CALL SearchCourses('$term', '$classTitle', '$classNumber', '$department')";
+echo "<h3> Title: $classTitle </h3>";
+echo "<h3> Number: $classNumber </h3>";
+echo "<h3> Department: $department </h3>";
+echo "<h3> Instructor: $instructor </h3>";
+echo "<h3> Area: $area </h3>";
+$sql = "CALL SearchCourses('$term', '$classTitle', '$classNumber', '$department', '$instructor', '$area')";
 
 $result = mysqli_query($conn, $sql);
 if (!$result) {

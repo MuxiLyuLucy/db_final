@@ -5,9 +5,9 @@ CREATE PROCEDURE SearchCourses(
     IN p_Term VARCHAR(20),
     IN p_ClassTitle VARCHAR(255),
     IN p_ClassNumber VARCHAR(255),
-    IN p_Department VARCHAR(255)
-    -- IN p_InstructorName VARCHAR(50),
-    -- IN p_Area VARCHAR(20)
+    IN p_Department VARCHAR(255),
+    IN p_InstructorName VARCHAR(50),
+    IN p_Area VARCHAR(20)
     -- IN p_WritingIntensive TINYINT(1),
     -- IN p_OpenSeatOnly BOOLEAN,
 )
@@ -43,13 +43,14 @@ BEGIN
     AND c.TimeSlotID = ts.TimeSlotID
     AND c.TermID = t.TermID
     AND i.DepartmentID = d.DepartmentID
-    AND t.TermName = p_Term;
-    -- AND (p_ClassTitle IS NULL OR p_ClassTitle= c.CourseTitle)
-    -- AND (p_Department = "none" OR p_Department = d.DepartmentName)
-    -- AND (p_ClassNumber IS NULL OR c.CourseName = p_ClassNumber);
+    AND t.TermName = p_Term
+    AND (p_ClassTitle = "none" OR INSTR(LOWER(c.CourseTitle), p_ClassTitle))
+    AND (p_Department = "none" OR p_Department = d.DepartmentName)
+    AND (p_ClassNumber = "none" OR INSTR(LOWER(c.CourseName), p_ClassNumber))
+    AND (p_InstructorName = "none" OR INSTR(LOWER(ins.InstructorName), p_InstructorName))
+    AND (p_Area = "none" OR INSTR(LOWER(c.Areas), p_Area));
 
 
-    -- AND p_InstructorName = Instructor.InstructorName;
     -- t.TermName = p_Term
     -- AND t.TermID = c.TermID
     -- AND t.TermID = 41
