@@ -1,7 +1,6 @@
 -- Remove relationship tables first to avoid constraints
 DROP TABLE IF EXISTS InCourseDepartment;
 DROP TABLE IF EXISTS Teaches;
-DROP TABLE IF EXISTS InCourseTimeSlot;
 
 -- Then drop tables with foreign key constraints
 DROP TABLE IF EXISTS Department;
@@ -31,27 +30,37 @@ CREATE TABLE Term (
     TermName VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE Course (
-    CourseID INT AUTO_INCREMENT PRIMARY KEY,
-    CourseName VARCHAR(255) NOT NULL,
-    CourseTitle VARCHAR(255) NOT NULL,
-    Credits FLOAT NOT NULL,
-    StatusBool VARCHAR(20) NOT NULL,
-    WritingIntensive VARCHAR(3) NOT NULL,
-    OpenSeats INT NOT NULL,
-    MaxSeats INT NOT NULL
-);
-
-CREATE TABLE Instructor (
-    InstructorID INT AUTO_INCREMENT PRIMARY KEY,
-    InstructorName VARCHAR(50) NOT NULL
-);
-
 CREATE TABLE TimeSlot (
     TimeSlotID INT AUTO_INCREMENT PRIMARY KEY,
     DOW VARCHAR(10) NOT NULL,
     StartTime VARCHAR(10) NOT NULL,
     EndTime VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE Course (
+    CourseID INT AUTO_INCREMENT PRIMARY KEY,
+    TermID INT,
+    CourseName VARCHAR(255) NOT NULL,
+    CourseTitle VARCHAR(255) NOT NULL,
+    Credits VARCHAR(20),
+    CourseLevel VARCHAR(255),
+    CourseStatus VARCHAR(20),
+    MaxSeats INT,
+    OpenSeats INT,
+    Waitlisted INT,
+    IsWritingIntensive TINYINT(1),
+    CourseLocation VARCHAR(255),
+    CourseBuilding VARCHAR(255),
+    TimeSlotID INT,
+    Areas VARCHAR(20),
+    InstructionMethod VARCHAR(255),
+    FOREIGN KEY (TermID) REFERENCES Term(TermID),
+    FOREIGN KEY (TimeSlotID) REFERENCES TimeSlot(TimeSlotID)
+);
+
+CREATE TABLE Instructor (
+    InstructorID INT AUTO_INCREMENT PRIMARY KEY,
+    InstructorName VARCHAR(255) NOT NULL
 );
 
 -- Create relationship tables
@@ -69,12 +78,4 @@ CREATE TABLE Teaches (
     CourseID INT,
     FOREIGN KEY (InstructorID) REFERENCES Instructor(InstructorID),
     FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
-);
-
-CREATE TABLE InCourseTimeSlot (
-    CourseTimeSlotID INT AUTO_INCREMENT PRIMARY KEY,
-    CourseID INT,
-    TimeSlotID INT,
-    FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
-    FOREIGN KEY (TimeSlotID) REFERENCES TimeSlot(TimeSlotID)
 );

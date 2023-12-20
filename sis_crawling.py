@@ -53,6 +53,7 @@ def get_schools(mode=""):
             cursor.close()
     if mode == "save":
         cnx.commit()
+    print("get_schools executed")
     return school_list
 
 def get_departments(school_list, mode=""):
@@ -85,6 +86,7 @@ def get_departments(school_list, mode=""):
         department_dict[school] = department_list
     if mode == "save":
         cnx.commit()
+    print("get_departments executed")
     return department_dict
 
 def get_terms(mode=""):
@@ -104,6 +106,7 @@ def get_terms(mode=""):
             cursor.close()
     if mode == "save":
         cnx.commit()
+    print("get_terms executed")
     return term_list
 
 def get_courses(department_dict, mode=""):
@@ -121,43 +124,168 @@ def get_courses(department_dict, mode=""):
          # check if the course is already in the dict
         if item["OfferingName"] + " " + item["Title"] in course_dict:
             continue
+        course_dict[item["OfferingName"] + " " + item["Title"]] = {}
+
         # get course detail
-        course_detail = {
-            "Credits": item["Credits"],
-            "AllDepartments": item["AllDepartments"],
-            "Level": item["Level"],
-            "IsWritingIntensive": item["IsWritingIntensive"],
-        }
-        course_dict[item["OfferingName"] + " " + item["Title"]] = course_detail
-        # get section detail
-        # course_name = item["OfferingName"].replace(".", "") + item["SectionName"]
-        # section_url = sis_url + course_name + apikey
-        # section_result = requests.get(section_url).json()
-        # course_detail["Description"] = section_result[0]["SectionDetails"]["Description"]
-        # course_detail["Prerequisites"] = section_result[0]["SectionDetails"]["Prerequisites"]["Description"]
-        # Equivalencies
-        # course
-        # insert section detail into course detail
-        # course_detail["SectionDetails"] = section_result
+        course_name = item["OfferingName"]
+        course_title = item["Title"]
+        credits = item["Credits"] if item["Credits"] != "" else None
+        level = item["Level"] if item["Level"] != "" else None
+        status = item["Status"] if item["Status"] != "" else None
+        is_writing_intensive = True if item["IsWritingIntensive"] == "Yes" else False
+        location = item["Location"] if item["Location"] != "" else None
+        building = item["Building"] if item["Building"] != "" else None
+        areas = item["Areas"] if item["Areas"] != "" else None
+        instruction_method = item["InstructionMethod"] if item["InstructionMethod"] != "" else None
+
+        max_seats = item["MaxSeats"]
+        try:
+            max_seats = int(max_seats)
+        except ValueError:
+            max_seats = None
+        open_seats = item["OpenSeats"]
+        try:
+            open_seats = int(open_seats)
+        except ValueError:
+            open_seats = None
+        waitlisted = item["Waitlisted"]
+        try:
+            waitlisted = int(waitlisted)
+        except ValueError:
+            waitlisted = None
         
-    if mode == "save":
-        # write the file in mdx format
-        with open("CScoursesFA23.mdx", "w") as f:
-            f.write("## List of Courses of the Computer Science Department\n\n")
-            for course, course_detail in course_dict.items():
-                f.write("- " + course + "\n")
-                f.write("  - Credits: " + course_detail["Credits"] + "\n")
-                f.write("  - Level: " + course_detail["Level"] + "\n")
-                f.write("  - IsWritingIntensive: " + course_detail["IsWritingIntensive"] + "\n")
-                f.write("  - AllDepartments: " + course_detail["AllDepartments"] + "\n")
-                # f.write("  - SectionDetails: " + course_detail["SectionDetails"] + "\n")
-                f.write("\n")
+        term = item["Term"]
+        if mode == "save":
+            cursor = cnx.cursor()
+            try:
+                cursor.execute("SELECT TermID FROM Term WHERE TermName = %s", (term,))
+                term_id = cursor.fetchone()[0]
+            except mysql.connector.Error as err:
+                print("Selection of term failed")
+                print(err)
+            cursor.close()
+            cnx.commit()
+
+        departments = item["AllDepartments"].split("^")
+        department_id_list = []
+        for department in departments:
+            if department == "":
+                departments.remove(department)
+            else:
+                # get department id
+                if mode == "save":
+                    cursor = cnx.cursor(buffered=True)
+                    try:
+                        cursor.execute("SELECT DepartmentID FROM Department WHERE DepartmentName = %s", (department,))
+                        department_id = cursor.fetchone()[0]
+                    except mysql.connector.Error as err:
+                        print("Selection of department failed")
+                        print(err)
+                    cursor.close()
+                    department_id_list.append(department_id)
+        if mode == "save":
+            cnx.commit()
+
+        instructors = item["InstructorsFullName"].split("^")
+        instructor_id_list = []
+        for instructor in instructors:
+            if instructor == "":
+                instructors.remove(instructor)
+            else:
+                # get instructor id
+                if mode == "save":
+                    # check if the instructor is already in the database
+                    cursor = cnx.cursor()
+                    try:
+                        cursor.execute("SELECT InstructorID FROM Instructor WHERE InstructorName = %s", (instructor,))
+                        instructor_id = cursor.fetchone()[0]
+                    except mysql.connector.Error as err:
+                        print("Selection of instructor failed")
+                        print(err)
+                    except TypeError:
+                        instructor_id = None
+                    cursor.close()
+                    # if not, insert it
+                    if instructor_id == None:
+                        cursor = cnx.cursor()
+                        try:
+                            cursor.execute("INSERT INTO Instructor (InstructorName) VALUES (%s)", (instructor,))
+                            cursor.execute("SELECT LAST_INSERT_ID()")
+                            instructor_id = cursor.fetchone()[0]
+                        except mysql.connector.Error as err:
+                            print("Insertion of instructor failed")
+                            print(err)
+                        cursor.close()
+                    instructor_id_list.append(instructor_id)
+        if mode == "save":
+            cnx.commit()
+
+        time_slot = item["Meetings"]
+        if time_slot == "":
+            time_slot = None
+        else: #  'Meetings': 'WF 12:00PM - 1:15PM', 
+            time_slot = time_slot.split(" ")
+            day_of_week = time_slot[0]
+            start_time = time_slot[1]
+            end_time = time_slot[3]
+            # check if the timeslot is already in the database
+            if mode == "save":
+                cursor = cnx.cursor()
+                try:
+                    cursor.execute("SELECT TimeSlotID FROM TimeSlot WHERE DOW = %s AND StartTime = %s AND EndTime = %s", (day_of_week, start_time, end_time))
+                    time_slot_id = cursor.fetchone()[0]
+                except mysql.connector.Error as err:
+                    print("Selection of instructor failed")
+                    print(err)
+                except TypeError:
+                    time_slot_id = None
+                cursor.close()
+            # if not, insert it
+            if time_slot_id == None and mode == "save":
+                cursor = cnx.cursor()
+                try:
+                    cursor.execute("INSERT INTO TimeSlot (DOW, StartTime, EndTime) VALUES (%s, %s, %s)", (day_of_week, start_time, end_time))
+                    cursor.execute("SELECT LAST_INSERT_ID()")
+                    time_slot_id = cursor.fetchone()[0]
+                except mysql.connector.Error as err:
+                    print("Insertion of time slot failed")
+                    print(err)
+                cursor.close()
+        if mode == "save":
+            cnx.commit()
+        
+        # insert to database
+        if mode == "save":
+            cursor = cnx.cursor()
+            try:
+                cursor.execute("INSERT INTO Course (CourseName, TermID, CourseTitle, Credits, CourseLevel, CourseStatus, MaxSeats, OpenSeats, Waitlisted, IsWritingIntensive, CourseLocation, CourseBuilding, TimeSlotID, Areas, InstructionMethod) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (course_name, term_id, course_title, credits, level, status, max_seats, open_seats, waitlisted, int(is_writing_intensive), location, building, time_slot_id, areas, instruction_method))
+                cursor.execute("SELECT LAST_INSERT_ID()")
+                course_id = cursor.fetchone()[0]
+
+                for department_id in department_id_list:
+                    try:
+                        cursor.execute("INSERT INTO InCourseDepartment (CourseID, DepartmentID) VALUES (%s, %s)", (course_id, department_id))
+                    except mysql.connector.Error as err:
+                        print("Insertion of InCourseDepartment failed")
+                        print(err)
+
+                for instructor_id in instructor_id_list:
+                    try:
+                        cursor.execute("INSERT INTO Teaches (CourseID, InstructorID) VALUES (%s, %s)", (course_id, instructor_id))
+                    except mysql.connector.Error as err:
+                        print("Insertion of Teaches failed")
+                        print(err)
+
+                cnx.commit()
+
+            except mysql.connector.Error as err:
+                print("Insertion of course failed")
+                print(err)
+            finally:
+                cursor.close()
+                cnx.commit()
+    print("get_courses executed")     
     return course_dict
-
-#     Examples of a query string that contains parameters:
-
-# /classes?key=apikeyvalue&Term=Fall%202010&Term=Fall%202013&School=Carey%20Business%20School
-# /classes?key=apikeyvalue&School=School%20of%20Education&Department=ED%20Interdisciplinary%20Studies%20in%20Education&Term=fall%202013&WritingIntensive=no
 
 def main():
     start()
@@ -165,7 +293,8 @@ def main():
     department_dict = get_departments(school_list, mode="save")
     term_list = get_terms(mode="save")
     get_courses(department_dict, mode="save")
-    
+
+# connect to db
 cnx = mysql.connector.connect(user=db_config['user'], password=db_config['password'],
                                 host=db_config['host'],
                                 database=db_config['database'])
