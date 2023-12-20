@@ -19,6 +19,22 @@ db_config = {
     'password': 'pCfV5FWWfK',
 }
 
+def start():
+    # execute start.sql
+    cursor = cnx.cursor()
+    try:
+        with open("start.sql", "r") as file:
+            sql_commands = file.read().split(';')  # Split SQL commands by semicolon
+            for command in sql_commands:
+                if command.strip():  # Skip empty commands
+                    cursor.execute(command)
+        print("start.sql executed")
+    except mysql.connector.Error as err:
+        print("start.sql execution failed")
+        print(err)
+    cursor.close()
+    cnx.commit()
+
 def get_schools(mode=""):
     url = sis_url + "codes/schools" + apikey
     result = requests.get(url).json()
@@ -26,13 +42,17 @@ def get_schools(mode=""):
     school_list = []
     for item in result:
         school_list.append(item["Name"])
-
+        if mode == "save":
+            # write into database
+            cursor = cnx.cursor()
+            try:
+                cursor.execute("INSERT INTO School (SchoolName) VALUES (%s)", (item["Name"],))
+            except mysql.connector.Error as err:
+                print("Insertion of school failed")
+                print(err)
+            cursor.close()
     if mode == "save":
-        # write the file in mdx format
-        with open("schools.mdx", "w") as f:
-            f.write("## List of Schools\n\n")
-            for school in school_list:
-                f.write("- " + school + "\n")
+        cnx.commit()
     return school_list
 
 def get_departments(school_list, mode=""):
@@ -40,20 +60,31 @@ def get_departments(school_list, mode=""):
     for school in school_list:
         url = sis_url + "codes/departments/" + school.replace(" ", "%20") + apikey
         result = requests.get(url).json()
+        # get SchoolID if mode == "save"
+        if mode == "save":
+            cursor = cnx.cursor()
+            try:
+                cursor.execute("SELECT SchoolID FROM School WHERE SchoolName = %s", (school,))
+                school_id = cursor.fetchone()[0]
+            except mysql.connector.Error as err:
+                print("Selection of school failed")
+                print(err)
+            cursor.close()
         department_list = []
         for item in result:
             department_list.append(item["DepartmentName"])
+            if mode == "save":
+                # write into database
+                cursor = cnx.cursor()
+                try:
+                    cursor.execute("INSERT INTO Department (DepartmentName, SchoolID) VALUES (%s, %s)", (item["DepartmentName"], school_id))
+                except mysql.connector.Error as err:
+                    print("Insertion of department failed")
+                    print(err)
+                cursor.close()
         department_dict[school] = department_list
-    
     if mode == "save":
-        # write the file in mdx format
-        with open("departments.mdx", "w") as f:
-            f.write("## List of departments\n\n")
-            for school in school_list:
-                f.write("###  List of departments in " + school + "\n\n")
-                for department in department_dict[school]:
-                    f.write("- " + department + "\n")
-                f.write("\n")
+        cnx.commit()
     return department_dict
 
 def get_terms(mode=""):
@@ -62,13 +93,17 @@ def get_terms(mode=""):
     term_list = []
     for item in result:
         term_list.append(item["Name"])
-    
+        if mode == "save":
+            # write into database
+            cursor = cnx.cursor()
+            try:
+                cursor.execute("INSERT INTO Term (TermName) VALUES (%s)", (item["Name"],))
+            except mysql.connector.Error as err:
+                print("Insertion of term failed")
+                print(err)
+            cursor.close()
     if mode == "save":
-        # write the file in mdx format
-        with open("terms.mdx", "w") as f:
-            f.write("## List of available academic terms\n\n")
-            for term in term_list:
-                f.write("- " + term + "\n")
+        cnx.commit()
     return term_list
 
 def get_courses(department_dict, mode=""):
@@ -125,10 +160,10 @@ def get_courses(department_dict, mode=""):
 # /classes?key=apikeyvalue&School=School%20of%20Education&Department=ED%20Interdisciplinary%20Studies%20in%20Education&Term=fall%202013&WritingIntensive=no
 
 def main():
-    # school_list = get_schools(mode="save")
-    # department_dict = get_departments(school_list, mode="save")
-    # term_list = get_terms(mode="save")
-    department_dict = {}
+    start()
+    school_list = get_schools(mode="save")
+    department_dict = get_departments(school_list, mode="save")
+    term_list = get_terms(mode="save")
     get_courses(department_dict, mode="save")
     
 cnx = mysql.connector.connect(user=db_config['user'], password=db_config['password'],
