@@ -15,26 +15,43 @@ mysqli_select_db($conn, "23fa_mlyu4_db");
 $term = $_POST['term'];
 echo "<h2> $term </h2>";
 
+$classTitle = null;
+$classNumber = null;
+$department = null;
+$instructor = null;
+$area = null;
+$programOfStudy = null;
+$writingIntensive = null;
+$openseat = null;
+$day = null;
+
 if (isset($_POST['classTitle'])) {
     $classTitle = $_POST['classTitle'];
+    echo "<h2> $classTitle </h2>";
 } else {
     $classTitle = null;
 }
 
 if (isset($_POST['classNumber'])) {
     $classNumber = $_POST['classNumber'];
+    echo "<h2> $classNumber </h2>";
 } else {
     $classNumber = null;
 }
 
 if (isset($_POST['department'])) {
     $department = $_POST['department'];
+    if ($department === 'Please Select') {
+        $department = null;
+    }
+    echo "<h2> $department </h2>";
 } else {
     $department = null;
 }
 
 if (isset($_POST['instructorName'])) {
     $instructor = $_POST['instructorName'];
+    echo "<h2> $instructor </h2>";
 } else {
     $instructor = null;
 }
