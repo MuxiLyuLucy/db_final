@@ -2,7 +2,7 @@
 import requests
 
 # sis api key from Muxi
-apikeyvalue = "OHKwvpLNuFqujDwj3L0K7jj8yK7euWoc"
+apikeyvalue = "8ldhnZYGGfukUZlw2nsv5Mt0kJL1s8iC"
 apikey = "?key=" + apikeyvalue
 
 # sis api url base
@@ -75,8 +75,8 @@ def get_courses(department_dict, mode=""):
     # Computer Science only (for now)
     school = "Whiting School of Engineering"
     department = "EN Computer Science"
-    term = "Fall 2023"
-    url = sis_url + apikey + "&School=" + school.replace(" ", "%20") + "&Department=" + department.replace(" ", "%20") + "&Term=" + term.replace("", "%20")
+    term = "fall 2023"
+    url = sis_url + apikey + "&School=" + school.replace(" ", "%20") + "&Department=" + department.replace(" ", "%20") + "&Term=" + term.replace(" ", "%20")
     
     result = requests.get(url).json()
 
@@ -95,15 +95,15 @@ def get_courses(department_dict, mode=""):
         }
         course_dict[item["OfferingName"] + " " + item["Title"]] = course_detail
         # get section detail
-        course_name = item["OfferingName"].replace(".", "") + item["SectionName"]
-        section_url = sis_url + course_name + apikey
-        section_result = requests.get(section_url).json()
-        course_detail["Description"] = section_result[0]["SectionDetails"]["Description"]
-        course_detail["Prerequisites"] = section_result[0]["SectionDetails"]["Prerequisites"]["Description"]
+        # course_name = item["OfferingName"].replace(".", "") + item["SectionName"]
+        # section_url = sis_url + course_name + apikey
+        # section_result = requests.get(section_url).json()
+        # course_detail["Description"] = section_result[0]["SectionDetails"]["Description"]
+        # course_detail["Prerequisites"] = section_result[0]["SectionDetails"]["Prerequisites"]["Description"]
         # Equivalencies
         # course
         # insert section detail into course detail
-        course_detail["SectionDetails"] = section_result
+        # course_detail["SectionDetails"] = section_result
         
     if mode == "save":
         # write the file in mdx format
