@@ -7,9 +7,10 @@ CREATE PROCEDURE SearchCourses(
     IN p_ClassNumber VARCHAR(255),
     IN p_Department VARCHAR(255),
     IN p_InstructorName VARCHAR(50),
-    IN p_Area VARCHAR(20)
-    -- IN p_WritingIntensive TINYINT(1),
+    IN p_Area VARCHAR(20),
+    IN p_WritingIntensive TINYINT(1),
     -- IN p_OpenSeatOnly BOOLEAN,
+    IN p_DOW VARCHAR(20)
 )
 BEGIN
     SELECT DISTINCT
@@ -48,7 +49,9 @@ BEGIN
     AND (p_Department = "none" OR p_Department = d.DepartmentName)
     AND (p_ClassNumber = "none" OR INSTR(LOWER(c.CourseName), p_ClassNumber))
     AND (p_InstructorName = "none" OR INSTR(LOWER(ins.InstructorName), p_InstructorName))
-    AND (p_Area = "none" OR INSTR(LOWER(c.Areas), p_Area));
+    AND (p_Area = "none" OR INSTR(LOWER(c.Areas), p_Area))
+    AND (p_DOW = "none" OR INSTR(ts.DOW, p_DOW))
+    AND p_WritingIntensive = c.IsWritingIntensive;
 
 
     -- t.TermName = p_Term

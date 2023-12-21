@@ -79,23 +79,35 @@ if (isset($_POST['wi'])) {
 } else {
     $writingIntensive = null;
 }
+$textwi = ($writingIntensive === 1)? "yes": "no"
 
 $openseat = isset($_POST['openseat']) && $_POST['openseat'] === 'true';
 
-
-if (isset($_POST["day"])) {
-    $day = $_POST["day"];
+if (isset($_POST['dow'])) {
+    $dow = $_POST['dow'];
 } else {
-    $day = null;
+    $dow = "none";
 }
 
+
 // $sql = "CALL SearchCourses('$term', '$classTitle', '$classNumber', '$department', '$instructor', '$area', '$writingIntensive', '$openseat', '$day')";
+echo "<div class='info-column'>";
 echo "<h3> Title: $classTitle </h3>";
 echo "<h3> Number: $classNumber </h3>";
 echo "<h3> Department: $department </h3>";
 echo "<h3> Instructor: $instructor </h3>";
+echo "</div>";
+
+echo "<div class='info-column'>";
 echo "<h3> Area: $area </h3>";
-$sql = "CALL SearchCourses('$term', '$classTitle', '$classNumber', '$department', '$instructor', '$area')";
+echo "<h3> Writing Intensive: $wriringIntensive </h3>";
+echo "<h3> Open Seat: $openseat </h3>";
+echo "<h3> Day: $dow </h3>";
+echo "</div>";
+
+$sql = "CALL SearchCourses('$term', '$classTitle', '$classNumber', '$department', '$instructor', '$area','$writingIntensive', '$day')";
+
+echo '<input type="button" value="Back" onclick="history.back(-1); showInputFields()" />';
 
 $result = mysqli_query($conn, $sql);
 if (!$result) {
@@ -105,7 +117,8 @@ if (!$result) {
 } else {
     echo "<table border='1'>";
     echo "<tr><th>Course ID</th><th>Couse Title</th><th>Credits</th><th>Course Level</th><th>Course Status</th><th>Max Seats</th><th>Open Seats</th><th>Waitlisted</th>
-    <th>Is Writing Intensive</th><th>Course Location</th><th>Course Building</th><th>Area</th></tr>";
+    <th>Is Writing Intensive</th><th>Course Location</th><th>Course Building</th><th>Areas</th><th>DepartmentName</th><th>InstructorName</th><th>DOW</th>
+    <th>StartTime</th><th>EndTime</th></tr>";
     while ($row = mysqli_fetch_array($result)) {
         echo "<tr><td>" . $row['CourseName'] . "</td>";
         echo "<td>" . $row['CourseTitle'] . "</td>";
@@ -119,18 +132,18 @@ if (!$result) {
         echo "<td>" . $row['CourseLocation'] . "</td>";
         echo "<td>" . $row['CourseBuilding'] . "</td>";
         echo "<td>" . $row['Areas'] . "</td>";
-        // echo "<td>" . $row['DepartmentName'] . "</td>";
-        // echo "<td>" . $row['InstructorName'] . "</td>";
-        // echo "<td>" . $row['DOW'] . "</td>";
-        // echo "<td>" . $row['StartTime'] . "</td>";
-        // echo "<td>" . $row['EndTime'] . "</td></tr>";
+        echo "<td>" . $row['DepartmentName'] . "</td>";
+        echo "<td>" . $row['InstructorName'] . "</td>";
+        echo "<td>" . $row['DOW'] . "</td>";
+        echo "<td>" . $row['StartTime'] . "</td>";
+        echo "<td>" . $row['EndTime'] . "</td></tr>";
     }
     echo "</table>";
 
 
 }
 
-echo '<input type="button" value="Back" onclick="history.back(-1); showInputFields()" />';
+
 
 
 $conn->close();
